@@ -10,7 +10,7 @@
   "author": "artemkopylov04",
   "main": "lib/index.js",
   "scripts": {
-    "test": "mocha tests --recursive"
+    "test": "npx mocha tests/lib/rules/lodash-map"
   },
   "dependencies": {
     "requireindex": "~1.1.0"

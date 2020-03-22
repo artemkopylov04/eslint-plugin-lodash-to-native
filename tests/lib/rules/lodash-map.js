@@ -10,77 +10,54 @@
 
 var rule = require("../../../lib/rules/lodash-map"),
 
-    RuleTester = require("eslint").RuleTester;
+RuleTester = require("eslint").RuleTester;
 
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var ruleTester = new RuleTester();
+var ruleTester = new RuleTester({
+    parserOptions: {
+        ecmaVersion: 6
+    }
+});
+
 ruleTester.run("lodash-map", rule, {
     valid: [
-        "_.map([1, 2, 3], fn);",
+        "Array.isArray(obj) ? obj.map(fn) : _.map(obj, fn);",
         "_.map({ name: \"John\", surname: \"Doe\" }, fn);",
     ],
     invalid: [
         {
             code: "_.map(obj, fn);",
+            output: "Array.isArray(obj) ? obj.map(fn) : _.map(obj, fn);",
             errors: [
                 {
-                    message: "Check map on array argument",
+                    message: "map checker",
                     type: "CallExpression"
                 }
             ]
         },
         {
-            code: "_.map(collection, fn);",
+            code: "var m1 = _.map([], fn); _ = {map: () => []}; var m2 = _.map([], fn);",
+            output: "var m1 = [].map(fn); _ = {map: () => []}; var m2 = _.map([], fn);",
             errors: [
                 {
-                    message: "Check map on array argument",
+                    message: "map checker",
+                    type: "CallExpression"
+                }
+            ]
+        },
+        {
+            code: "_.map([1, 2, 3], fn);",
+            output: "[1, 2, 3].map(fn);",
+            errors: [
+                {
+                    message: "map checker",
                     type: "CallExpression"
                 }
             ]
         }
     ]
 });
-
-`const collection = [1, 2, 3, 4, 5];
-let co = [1, 2, 3];
-let obj = { name: "John", surname: "Doe" };
-
-_.map(collection, fn);
-
-co = 1;
-
-_.map(co, fn);
-
-_.map([1, 2, 3], fn);
-
-_.map(obj, fn);
-
-obj = [1, 2, 3];
-
-_.map(obj, fn);
-
-obj = 1;
-
-_.map(obj, fn);
-
-_.map({ name: "John", surname: "Doe" }, fn);
-
-(true) ? collection.map(fn) : _.map(collection, fn);
-
-(true) ? co.map(fn) : _.map(co, fn);
-
-(Array.isArray(collection)) ? collection.map(fn) : _.map(collection, fn);
-
-if (true) { collection.map(fn) } else { _.map(collection, fn); }
-
-if (Array.isArray(collection)) { collection.map(fn) } else { _.map(collection, fn); }
-
-function anonymus(c) {
-   _.map(c, fn);
-}
-
-return _.map(collection, fn);`
