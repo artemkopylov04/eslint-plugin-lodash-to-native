@@ -1,7 +1,7 @@
 {
   "name": "eslint-plugin-lodash-to-native",
   "version": "1.0.0",
-  "description": "lodash-to-native/map",
+  "description": "lodash-to-native plugin for eslint",
   "keywords": [
     "eslint",
     "eslintplugin",
