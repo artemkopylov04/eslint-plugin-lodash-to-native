@@ -34,7 +34,7 @@ ruleTester.run("lodash-map", rule, {
             output: "Array.isArray(obj) ? obj.map(fn) : _.map(obj, fn);",
             errors: [
                 {
-                    message: "map checker",
+                    message: "Check variable on .isArray",
                     type: "CallExpression"
                 }
             ]
@@ -44,7 +44,7 @@ ruleTester.run("lodash-map", rule, {
             output: "var m1 = [].map(fn); _ = {map: () => []}; var m2 = _.map([], fn);",
             errors: [
                 {
-                    message: "map checker",
+                    message: "Check variable on .isArray",
                     type: "CallExpression"
                 }
             ]
@@ -54,7 +54,7 @@ ruleTester.run("lodash-map", rule, {
             output: "[1, 2, 3].map(fn);",
             errors: [
                 {
-                    message: "map checker",
+                    message: "Check variable on .isArray",
                     type: "CallExpression"
                 }
             ]
